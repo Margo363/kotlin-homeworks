@@ -2,7 +2,7 @@ fun commissionPay (
     cardType: String = "VkPay",
     limitInMonth: Int = 0,
     amount: Int = 1
-): Int {
+): Unit {
     val noCommissionVkPay = amount * 0 //комиссия 0% Vk Pay
     val limitSinglePaymentVkPay = 1_500_000 //максимальная сумма перевода единовременно в копейках Vk Pay
     val limitInMonthMaxVkPay = 4_000_000 //максимальная сумма перевода в месяц в копейках Vk Pay
@@ -21,31 +21,36 @@ fun commissionPay (
     val commissionMastercardMaestro = commissionPercentageMastercardMaestro+commissionMinMastercardMaestro //комиссия 0.6% + 20 рублей Mastercard/Maestro
 
 
-    val commission = when(cardType=="VkPay") {
-        amount<=limitSinglePaymentVkPay -> println("комиссия с перевода составила $noCommissionVkPay рублей")
-        limitInMonth>limitInMonthMaxVkPay -> println("Внимание! Перевод недоступен, максимальная сумма всех переводов в месяц = 40000 рублей.")
-        else -> println("Внимание! Перевод недоступен, максимальная сумма единовременного перевода = 15000 рублей.")
-    }
-
-    val commission = when(cardType=="Visa"||cardType=="Mir") {
-        limitInMonth>limitInMonthOther -> println("Внимание! Перевод недоступен, максимальная сумма всех переводов в месяц = 600000 рублей.")
-        amount>limitInDayOther -> println("Внимание! Перевод не доступен, максимальная сумма переводов в сутки составляет 150000 рублей")
-        commissionPercentageVisaMir>commissionMinVisaMir -> println("Комиссия за перевод составила $commissionPercentageVisaMir рублей")
-        else -> println("Комиссия за перевод составила $commissionMinVisaMir рублей")
-    }
-
-    val commission = when (cardType=="Mastercard"||cardType=="Maestro") {
-        limitInMonth>limitInMonthMastercardMaestro -> println("Комиссия за перевод составила $commissionMastercardMaestro рублей")
-        else -> println("Комиссия за перевод составила $noCommissionMastercardMaestro рублей")
-
+    val commission = when(cardType) {
+        "VkPay" -> {
+            when {
+                amount<=limitSinglePaymentVkPay -> println("комиссия с перевода составила $noCommissionVkPay копеек")
+                limitInMonth>limitInMonthMaxVkPay -> println("Внимание! Перевод недоступен, максимальная сумма всех переводов в месяц = 40000 рублей.")
+                else -> println("Внимание! Перевод недоступен, максимальная сумма единовременного перевода = 15000 рублей.")
+            }
+        }
+        "Visa","Mir" -> {
+            when {
+                limitInMonth>limitInMonthOther -> println("Внимание! Перевод недоступен, максимальная сумма всех переводов в месяц = 600000 рублей.")
+                amount>limitInDayOther -> println("Внимание! Перевод не доступен, максимальная сумма переводов в сутки составляет 150000 рублей")
+                commissionPercentageVisaMir>commissionMinVisaMir -> println("Комиссия за перевод составила $commissionPercentageVisaMir копеек")
+                else -> println("Комиссия за перевод составила $commissionMinVisaMir копеек")
+            }
+        }
+        else -> {
+            when {
+                limitInMonth>limitInMonthMastercardMaestro -> println("Комиссия за перевод составила $commissionMastercardMaestro копеек")
+                else -> println("Комиссия за перевод составила $noCommissionMastercardMaestro копеек")
+            }
+        }
     }
     return commission
 }
 
 fun main() {
-    val amount = 1_500_008 //сумма перевода в копейках
+    val amount = 1_320_000 //сумма перевода в копейках
     val limitInMonth = 0
-    val cardType = "VkPay"
+    val cardType = "Visa"
 
     val result = commissionPay(cardType, limitInMonth, amount)
 }
