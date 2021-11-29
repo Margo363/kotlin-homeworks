@@ -14,14 +14,12 @@ fun commissionPay (
     val commissionMinVisaMir = 3500 //комиссия минимум 35 рублей = 3500 коп Visa/Mir
 
     val limitInMonthMastercardMaestro = 7_500_000 //максимальная сумма перевода в месяц в копейках Mastercard/Maestro
-
     val noCommissionMastercardMaestro = amount * 0 // комиссия 0% от суммы перевода до 7_500_000 Mastercard/Maestro
     val commissionPercentageMastercardMaestro = amount / 1_000 * 6 //комиссия 0.6% от суммы перевода Mastercard/Maestro
     val commissionMinMastercardMaestro = 2_000 // минмальная комиссия 20 рублей = 2000 коп  Mastercard/Maestro
     val commissionMastercardMaestro = commissionPercentageMastercardMaestro+commissionMinMastercardMaestro //комиссия 0.6% + 20 рублей Mastercard/Maestro
 
-
-    val commission = when(cardType) {
+    when(cardType) {
         "VkPay" -> {
             when {
                 amount<=limitSinglePaymentVkPay -> println("комиссия с перевода составила $noCommissionVkPay копеек")
@@ -44,15 +42,14 @@ fun commissionPay (
             }
         }
     }
-    return commission
 }
 
 fun main() {
-    val amount = 1_320_000 //сумма перевода в копейках
-    val limitInMonth = 0
-    val cardType = "Visa"
+    val amount = 8_320_000 //сумма перевода в копейках
+    val limitInMonth = 8000000
+    val cardType = "Maestro"
 
-    val result = commissionPay(cardType, limitInMonth, amount)
+    val commission = commissionPay(cardType, limitInMonth, amount)
 }
 
 
