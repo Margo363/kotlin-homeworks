@@ -24,7 +24,7 @@ fun main() {
     when (secondsAgo){
         in 0..59 -> println("был(а) в сети только что")
         in 60..3599 ->
-            when(true) {
+            when {
                 lastTwoDigitsMinutes == minutesEleven -> println("был(а) в сети $minutes минут назад")
                 lastDigitMinutes == minutesLastOne -> println("был(а) в сети $minutes минуту назад")
                 lastDigitMinutes == minutesLastTwo||lastDigitMinutes == minutesLastThree||lastDigitMinutes == minutesLastFore -> println("был(а) в сети $minutes минуты назад")
@@ -32,7 +32,7 @@ fun main() {
             }
 
         in 3600..86399 ->
-            when(true){
+            when {
                 lastTwoDigitsHours == hoursEleven -> println("был(а) в сети $hours часов назад")
                 lastDigitHours == hoursLastOne -> println("был(а) в сети $hours час назад")
                 lastDigitHours == hoursLastTwo||lastDigitHours == hoursLastThree||lastDigitHours == hoursLastFore -> println("был(а) в сети $hours часа назад")
